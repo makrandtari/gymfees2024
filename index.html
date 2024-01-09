@@ -291,38 +291,43 @@
 <!-- ... Your existing HTML code ... -->
 
 <script type="text/javascript">
-  document.getElementById('d1-pdf').onclick = function () {
-    document.body.classList.add('pdf-generating');
+    document.getElementById('d1-pdf').onclick = function () {
+      document.body.classList.add('pdf-generating');
 
-    var timeleft = 5;
-    var downloadTimer = setInterval(function () {
-      if (timeleft <= 0) {
-        clearInterval(downloadTimer);
-        document.body.classList.remove('pdf-generating');
-      } else {
-        document.getElementById("countdowntimer").innerHTML = timeleft + " seconds remaining";
+      var timeleft = 5;
+      var downloadTimer = setInterval(function () {
+        if (timeleft <= 0) {
+          clearInterval(downloadTimer);
+          document.body.classList.remove('pdf-generating');
+        } else {
+          document.getElementById("countdowntimer").innerHTML = timeleft + " seconds remaining";
+        }
+        timeleft -= 1;
+      }, 1000);
+
+      var element = document.body;
+      var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+      var format = 'a4'; // Default to A4 format
+      if (screenWidth > 768) {
+        format = 'letter'; // Use letter format for larger screens (adjust the threshold as needed)
       }
-      timeleft -= 1;
-    }, 1000);
 
-    var element = document.body;
-    var opt = {
-      margin: 1,
-      filename: 'gym_fees.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 5 },
-      jsPDF: { format: 'letter', orientation: 'landscape' },
-      onBeforeSave: function (pdf) {
-        pdf.internal.putAdditionalTransform(450, 0, 0, 580, 0, 0); // Force desktop format
-      },
-      onAfterCreate: function (pdf) {
-        console.log(pdf);
-        pdf.save();
-      },
+      var opt = {
+        margin: 1,
+        filename: 'gym_fees.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 5 },
+        jsPDF: { format: format, orientation: 'landscape' },
+        onAfterCreate: function (pdf) {
+          console.log(pdf);
+          pdf.save();
+        },
+      };
+      html2pdf(element, opt);
     };
-    html2pdf(element, opt);
-  };
-</script>
+  </script>
+
 
 <!-- ... The rest of your HTML code ... -->
 
