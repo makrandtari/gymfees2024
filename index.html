@@ -288,38 +288,36 @@
     </p>
   </center>
 
-  <script type="text/javascript">
-    document.getElementById('d1-pdf').onclick = function () {
-      // document.getElementById("countdowntimer").innerHTML = "<b>Please wait, the file is being generated...</b>";
-      document.body.classList.add('pdf-generating'); // Add a class to style during PDF generation
+ <script type="text/javascript">
+  document.getElementById('d1-pdf').onclick = function () {
+    document.body.classList.add('pdf-generating');
 
-      var timeleft = 5;
-      var downloadTimer = setInterval(function () {
-        if (timeleft <= 0) {
-          clearInterval(downloadTimer);
-          // document.getElementById("countdowntimer").innerHTML = "Finished";
-          document.body.classList.remove('pdf-generating'); // Remove the class after PDF generation
-        } else {
-          document.getElementById("countdowntimer").innerHTML = timeleft + " seconds remaining";
-        }
-        timeleft -= 1;
-      }, 1000);
+    var timeleft = 5;
+    var downloadTimer = setInterval(function () {
+      if (timeleft <= 0) {
+        clearInterval(downloadTimer);
+        document.body.classList.remove('pdf-generating');
+      } else {
+        document.getElementById("countdowntimer").innerHTML = timeleft + " seconds remaining";
+      }
+      timeleft -= 1;
+    }, 1000);
 
-      var element = document.body;
-      var opt = {
-        margin: 1,
-        filename: 'gym_fees.pdf',
-        image: { type: 'jpeg', quality: 1 }, // Set image quality to 1 for maximum quality
-        html2canvas: { scale: 5 }, // Adjust scale as needed for better quality
-        jsPDF: { format: 'a4', orientation: 'landscape' },
-        onAfterCreate: function (pdf) {
-          console.log(pdf);
-          pdf.save(); // Trigger the download after creating the PDF
-        },
-      };
-      html2pdf(element, opt);
+    var element = document.body;
+    var opt = {
+      margin: 1,
+      filename: 'gym_fees.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 5 },
+      jsPDF: { format: 'letter', orientation: 'landscape' }, // Adjust format and orientation
+      onAfterCreate: function (pdf) {
+        console.log(pdf);
+        pdf.save();
+      },
     };
-  </script>
+    html2pdf(element, opt);
+  };
+</script>
 
 </body>
 
