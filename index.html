@@ -288,7 +288,9 @@
     </p>
   </center>
 
- <script type="text/javascript">
+<!-- ... Your existing HTML code ... -->
+
+<script type="text/javascript">
   document.getElementById('d1-pdf').onclick = function () {
     document.body.classList.add('pdf-generating');
 
@@ -309,7 +311,10 @@
       filename: 'gym_fees.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 5 },
-      jsPDF: { format: 'letter', orientation: 'landscape' }, // Adjust format and orientation
+      jsPDF: { format: 'letter', orientation: 'landscape' },
+      onBeforeSave: function (pdf) {
+        pdf.internal.putAdditionalTransform(450, 0, 0, 580, 0, 0); // Force desktop format
+      },
       onAfterCreate: function (pdf) {
         console.log(pdf);
         pdf.save();
@@ -318,6 +323,9 @@
     html2pdf(element, opt);
   };
 </script>
+
+<!-- ... The rest of your HTML code ... -->
+
 
 </body>
 
